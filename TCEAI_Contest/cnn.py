@@ -8,15 +8,16 @@ from keras.models import Sequential
 from PIL import Image
 from os import listdir
 import numpy as np
-image_directory = "./photos/"
+image_directory = "./image/"
 
 def read_image_grayscale(file_name):
   return np.array(list(map(lambda pix: pix / 255, np.array(Image.open(image_directory + file_name).convert('L'), 'uint8'))))
+
+
 input_y = pd.read_csv("./TCEAI_Contest/y_input.csv",sep=",")
-print(input_y.head())
 input_y = pd.Series(input_y['male'])
 print(input_y)
-x_train =  12
+x_train =  
 # x_test = 
 y_train = np.array(input_y)
 # y_test =
@@ -53,4 +54,4 @@ model.compile(loss='binary_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 model.summary()
-#history = model.fit(x_train,y_train,batch_size=512,epochs=30,verbose=1)
+history = model.fit(x_train,y_train,batch_size=512,epochs=30,verbose=1)
