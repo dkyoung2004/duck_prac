@@ -11,7 +11,7 @@ import numpy as np
 image_directory = "./duck_prac/TCEAI_Contest/image/"
 
 def read_image_grayscale(file_name):
-  return np.array(list(map(lambda pix: [pix / 255], np.array(Image.open(image_directory + file_name).convert('L'), 'uint8'))))
+  return np.array(list(map(lambda x: list(map(lambda y: [y], x)), np.array(Image.open(image_directory + file_name).convert('L'), 'uint8'))))/255
 
 
 input_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_input.csv",sep=",")
@@ -19,6 +19,9 @@ input_y = pd.Series(input_y['male'])
 x_train =  np.array(list(map(read_image_grayscale, listdir(image_directory))))
 # x_test = 
 y_train = np.array(input_y)
+
+
+
 # y_test =
 #Conv2D         합성곱을 할 차원의 수 flatten을 사용해 1차원이 되었으면 Conv1D가 될 것.
 
