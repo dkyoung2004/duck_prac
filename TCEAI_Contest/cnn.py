@@ -11,13 +11,12 @@ import numpy as np
 image_directory = "./duck_prac/TCEAI_Contest/image/"
 
 def read_image_grayscale(file_name):
-  return np.array(list(map(lambda pix: pix / 255, np.array(Image.open(image_directory + file_name).convert('L'), 'uint8'))))
+  return np.array(list(map(lambda pix: [pix / 255], np.array(Image.open(image_directory + file_name).convert('L'), 'uint8'))))
 
 
 input_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_input.csv",sep=",")
 input_y = pd.Series(input_y['male'])
 x_train =  np.array(list(map(read_image_grayscale, listdir(image_directory))))
-x_train = x_train.reshape(300,230400)
 # x_test = 
 y_train = np.array(input_y)
 # y_test =
@@ -33,7 +32,7 @@ model = Sequential()
 model.add(Conv2D(filters=12,kernel_size=(20, 20),strides=(2, 2),padding='valid',input_shape=(480,480,1)))
 model.add(Activation('relu'))
 model.add(BatchNormalization())
-model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2,2),strides=(2, 2)))
 
 model.add(Conv2D(filters=24,kernel_size=(5, 5),strides=(1,1),activation='relu',padding='valid'))
 model.add(BatchNormalization())
@@ -54,4 +53,4 @@ model.compile(loss='binary_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 model.summary()
-history = model.fit(x_train,y_train,batch_size=512,epochs=15,verbose=1)
+history = model.fit(x_train,y_train,batch_size=100,epochs=15,verbose=1)
