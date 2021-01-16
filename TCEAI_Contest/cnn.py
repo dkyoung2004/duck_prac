@@ -17,6 +17,7 @@ def read_image_grayscale(file_name):
 input_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_input.csv",sep=",")
 input_y = pd.Series(input_y['male'])
 x_train =  np.array(list(map(read_image_grayscale, listdir(image_directory))))
+x_train = x_train.reshape(300,230400)
 # x_test = 
 y_train = np.array(input_y)
 # y_test =
@@ -29,7 +30,7 @@ y_train = np.array(input_y)
 #filters        필터의 층 개수
 
 model = Sequential()
-model.add(Conv2D(filters=12,kernel_size=(20, 20),strides=(2, 2),padding='valid',input_shape=(480, 480,3)))
+model.add(Conv2D(filters=12,kernel_size=(20, 20),strides=(2, 2),padding='valid',input_shape=(480,480,1)))
 model.add(Activation('relu'))
 model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
