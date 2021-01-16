@@ -7,6 +7,7 @@ zero = ''
 
 # Read the wav file (mono)
 for i in range(0, 1000):
+    #각 a의 자릿수에 따라 0갯수 지정
     if a <= 9:
         zero = '00000'
     if 10 <= a & a <= 99:
@@ -17,16 +18,20 @@ for i in range(0, 1000):
         zero = '00'
     if 10000 <= a & a <= 99999:
         zero = '0'
+        
+    #wav파일 불러오기
     file = './data/KsponSpeech_' + zero + str(a) + '.pcm.wav'
     samplingFrequency, signalData = wavfile.read(file)
-
+    
+    #스펙트로그램 생성
     plot.figure(figsize=(4.76, 4.76))
     plot.specgram(signalData[:,0], Fs=samplingFrequency)
     plot.subplots_adjust(left=0, bottom=0, right=1, top=1, hspace=0, wspace=0)
     ax = plot.gca()
     ax.axes.xaxis.set_visible(False)
     ax.axes.yaxis.set_visible(False)
-
+    
+    #번호에 따라 png로 
     name = './image/' + str(a) + '.png'
     plot.savefig(name, bbox_inches='tight', pad_inches=0)
     a = a + 1
