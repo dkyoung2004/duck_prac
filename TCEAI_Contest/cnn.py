@@ -8,8 +8,6 @@ from keras.models import Sequential
 from PIL import Image
 from os import listdir
 import numpy as np
-import sklearn
-from sklearn.model_selection import train_test_split
 image_directory_train = "./duck_prac/TCEAI_Contest/image_1/"
 image_directory_test = "./duck_prac/TCEAI_Contest/image_2/"
 
@@ -41,22 +39,22 @@ model = Sequential()
 model.add(Conv2D(filters=24,kernel_size=(20, 20),strides=(2, 2),padding='valid',input_shape=(480,480,1)))
 model.add(Activation('relu'))
 model.add(BatchNormalization())
-model.add(AveragePooling2D(pool_size=(2,2),strides=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2,2),strides=(2, 2)))
 
 model.add(Conv2D(filters=24,kernel_size=(5, 5),strides=(1,1),activation='relu',padding='valid'))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
-model.add(AveragePooling2D(pool_size=(2, 2),strides=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
 
 model.add(Conv2D(filters=24,kernel_size=(3, 3),strides=(1,1),activation='relu',padding='valid'))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
-model.add(AveragePooling2D(pool_size=(2, 2),strides=(2, 2)))
+model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
 #신경망 시작
 model.add(Flatten())
-model.add(Dropout(0.4))
-model.add(Dense(256,activation='relu'))
-model.add(Dropout(0.4))
+model.add(Dropout(0.5))
+model.add(Dense(128,activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(64,activation='relu'))
 model.add(Dense(2,activation='sigmoid'))
 model.compile(loss='binary_crossentropy',
