@@ -34,20 +34,20 @@ y_train = pd.get_dummies(y_train)
 #filters        필터의 층 개수
 
 model = Sequential()
-model.add(Conv2D(filters=12,kernel_size=(20, 20),strides=(2, 2),padding='valid',input_shape=(480,480,1)))
+model.add(Conv2D(filters=24,kernel_size=(20, 20),strides=(2, 2),padding='valid',input_shape=(480,480,1)))
 model.add(Activation('relu'))
 model.add(BatchNormalization())
-model.add(MaxPooling2D(pool_size=(2,2),strides=(2, 2)))
+model.add(AveragePooling2D(pool_size=(2,2),strides=(2, 2)))
 
 model.add(Conv2D(filters=24,kernel_size=(5, 5),strides=(1,1),activation='relu',padding='valid'))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
+model.add(AveragePooling2D(pool_size=(2, 2),strides=(2, 2)))
 
 model.add(Conv2D(filters=24,kernel_size=(3, 3),strides=(1,1),activation='relu',padding='valid'))
 model.add(BatchNormalization())
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2),strides=(2, 2)))
+model.add(AveragePooling2D(pool_size=(2, 2),strides=(2, 2)))
 #신경망 시작
 model.add(Flatten())
 model.add(Dense(128,activation='relu'))
