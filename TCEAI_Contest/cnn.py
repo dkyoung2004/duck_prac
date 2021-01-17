@@ -8,6 +8,8 @@ from keras.models import Sequential
 from PIL import Image
 from os import listdir
 import numpy as np
+import sklearn
+from sklearn.model_selection import train_test_split
 image_directory_train = "./duck_prac/TCEAI_Contest/image_1/"
 image_directory_test = "./duck_prac/TCEAI_Contest/image_2/"
 
@@ -26,8 +28,6 @@ y_train = np.array(input_y)
 y_train = pd.get_dummies(y_train)
 y_test = np.array(test_y)
 y_test = pd.get_dummies(y_test)
-
-
 # y_test =
 #Conv2D         합성곱을 할 차원의 수 flatten을 사용해 1차원이 되었으면 Conv1D가 될 것.
 
@@ -54,13 +54,13 @@ model.add(Activation('relu'))
 model.add(AveragePooling2D(pool_size=(2, 2),strides=(2, 2)))
 #신경망 시작
 model.add(Flatten())
-model.add(Dropout(0.3))
-model.add(Dense(128,activation='relu'))
-model.add(Dropout(0.3))
+model.add(Dropout(0.4))
+model.add(Dense(256,activation='relu'))
+model.add(Dropout(0.4))
 model.add(Dense(64,activation='relu'))
 model.add(Dense(2,activation='sigmoid'))
 model.compile(loss='binary_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 model.summary()
-history = model.fit(x_test,y_test,batch_size=100,epochs=15,verbose=1,validation_data=(x_train,y_train))
+history = model.fit(x_train,y_train,batch_size=100,epochs=15,verbose=1,validation_data=(x_test,y_test))
