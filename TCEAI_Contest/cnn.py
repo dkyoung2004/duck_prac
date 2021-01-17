@@ -11,15 +11,17 @@ import numpy as np
 image_directory_train = "./duck_prac/TCEAI_Contest/image_1/"
 image_directory_test = "./duck_prac/TCEAI_Contest/image_2/"
 
-def read_image_grayscale(file_name):
-  return np.array(np.array(Image.open(image_directory + file_name).convert('L'), 'uint8')).reshape(480, 480, 1)/255
-
+def read_image_grayscale_train(file_name):
+  return np.array(np.array(Image.open(image_directory_train + file_name).convert('L'), 'uint8')).reshape(480, 480, 1)/255
+def read_image_grayscale_test(file_name):
+  return np.array(np.array(Image.open(image_directory_test + file_name).convert('L'), 'uint8')).reshape(480, 480, 1)/255
 
 input_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_input.csv",sep=",")
 test_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_test.csv",sep=",")
 input_y = pd.Series(input_y['male'])
-x_train =  np.array(list(map(read_image_grayscale, listdir(image_directory_train))))
-x_test =   np.array(list(map(read_image_grayscale, listdir(image_directory_test))))
+test_y = pd.Series(test_y['male'])
+x_train =  np.array(list(map(read_image_grayscale_train, listdir(image_directory_train))))
+x_test =   np.array(list(map(read_image_grayscale_test, listdir(image_directory_test))))
 y_train = np.array(input_y)
 y_train = pd.get_dummies(y_train)
 y_test = np.array(test_y)
