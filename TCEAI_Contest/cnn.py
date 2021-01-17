@@ -8,20 +8,22 @@ from keras.models import Sequential
 from PIL import Image
 from os import listdir
 import numpy as np
-image_directory = "./duck_prac/TCEAI_Contest/image/"
+image_directory_train = "./duck_prac/TCEAI_Contest/image_1/"
+image_directory_test = "./duck_prac/TCEAI_Contest/image_2/"
 
 def read_image_grayscale(file_name):
   return np.array(np.array(Image.open(image_directory + file_name).convert('L'), 'uint8')).reshape(480, 480, 1)/255
 
 
 input_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_input.csv",sep=",")
+test_y = pd.read_csv("./duck_prac/TCEAI_Contest/y_test.csv",sep=",")
 input_y = pd.Series(input_y['male'])
-x_train =  np.array(list(map(read_image_grayscale, listdir(image_directory))))
-# x_test = 
+x_train =  np.array(list(map(read_image_grayscale, listdir(image_directory_train))))
+x_test =   np.array(list(map(read_image_grayscale, listdir(image_directory_test))))
 y_train = np.array(input_y)
-
 y_train = pd.get_dummies(y_train)
-
+y_test = np.array(test_y)
+y_test = pd.get_dummies(y_test)
 
 
 # y_test =
@@ -50,6 +52,7 @@ model.add(Activation('relu'))
 model.add(AveragePooling2D(pool_size=(2, 2),strides=(2, 2)))
 #신경망 시작
 model.add(Flatten())
+model.add(Dropout(0.3))
 model.add(Dense(128,activation='relu'))
 model.add(Dropout(0.3))
 model.add(Dense(64,activation='relu'))
@@ -58,4 +61,4 @@ model.compile(loss='binary_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 model.summary()
-history = model.fit(x_train,y_train,batch_size=100,epochs=15,verbose=1)
+history = model.fit(x_train,y_train,batch_size=100,epochs=15,verbose=1,validation_data=(x_test,y_test))
